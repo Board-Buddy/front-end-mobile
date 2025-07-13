@@ -1,9 +1,10 @@
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import WebViewContainer from "@/components/WebViewContainer";
+import { SafeAreaView, StyleSheet } from "react-native";
 
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Home</Text>
+      <WebViewContainer endpoint="" />
     </SafeAreaView>
   );
 };

@@ -47,7 +47,7 @@ export const TabLayout = () => {
           tabBarIcon: ({ color }) => (
             <Feather name="map-pin" size={24} color={color} />
           ),
-          headerShown: false,
+          headerTitle: "보드게임 카페 찾기",
         }}
       />
       <Tabs.Screen

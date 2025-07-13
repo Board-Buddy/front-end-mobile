@@ -1,9 +1,10 @@
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import WebViewContainer from "@/components/WebViewContainer";
+import { SafeAreaView, StyleSheet } from "react-native";
 
 const ChatScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Chat</Text>
+      <WebViewContainer endpoint="/chat" />
     </SafeAreaView>
   );
 };
