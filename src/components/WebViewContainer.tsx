@@ -45,7 +45,7 @@ const WebViewContainer = ({ endpoint }: Props) => {
             );
             break;
 
-          case "GO_BACK":
+          case "BACK":
             router.back();
             break;
         }
