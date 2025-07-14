@@ -9,6 +9,7 @@ const WebViewScreen = () => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerShown: !!headerTitle,
       headerTitle,
     });
   }, [headerTitle, navigation]);
