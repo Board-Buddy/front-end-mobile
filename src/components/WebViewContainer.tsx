@@ -1,3 +1,4 @@
+import { WebViewBridgeMessage } from "@/types/webview";
 import { useRouter } from "expo-router";
 import WebView, { WebViewMessageEvent } from "react-native-webview";
 
@@ -8,18 +9,20 @@ interface Props {
 const WebViewContainer = ({ endpoint }: Props) => {
   const router = useRouter();
 
-  const requestOnMessage = (event: WebViewMessageEvent) => {
+  const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
-      const message = JSON.parse(event.nativeEvent.data);
+      const message = JSON.parse(
+        event.nativeEvent.data
+      ) as WebViewBridgeMessage;
 
       if (message.type === "ROUTER_EVENT") {
-        const { method, targetScreen, webUrl, headerTitle, options } = message;
+        const { method, targetPath, webUrl, headerTitle, options } = message;
 
         switch (method) {
           case "PUSH":
             router.push(
               {
-                pathname: targetScreen,
+                pathname: targetPath,
                 params: {
                   url: webUrl,
                   headerTitle,
@@ -32,7 +35,7 @@ const WebViewContainer = ({ endpoint }: Props) => {
           case "REPLACE":
             router.replace(
               {
-                pathname: targetScreen,
+                pathname: targetPath,
                 params: {
                   url: webUrl,
                   headerTitle,
@@ -68,7 +71,7 @@ const WebViewContainer = ({ endpoint }: Props) => {
         },
       }}
       sharedCookiesEnabled={true} // TODO: 이거 없을때랑 있을때 직접 구분해보기!!
-      onMessage={requestOnMessage}
+      onMessage={handleWebViewMessage}
     />
   );
 };
