@@ -1,23 +1,26 @@
 import { COLORS } from "@/constants/colors";
 import { Stack } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-          gestureEnabled: false,
-        }}
-      />
-      <Stack.Screen
-        name="webview"
-        options={{
-          headerBackButtonDisplayMode: "minimal",
-          headerTintColor: COLORS.GRAY_600,
-        }}
-      />
-    </Stack>
+    <SafeAreaProvider>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="webview"
+          options={{
+            headerBackButtonDisplayMode: "minimal",
+            headerTintColor: COLORS.GRAY_600,
+          }}
+        />
+      </Stack>
+    </SafeAreaProvider>
   );
 }

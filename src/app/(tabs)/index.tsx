@@ -1,9 +1,11 @@
 import WebViewContainer from "@/components/WebViewContainer";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { COLORS } from "@/constants/colors";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <WebViewContainer endpoint="/home" />
     </SafeAreaView>
   );
@@ -12,6 +14,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.WHITE,
   },
 });
 

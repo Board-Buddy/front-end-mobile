@@ -3,4 +3,5 @@ export const COLORS = {
   SECONDARY: "#fff231",
   GRAY_500: "#a0abc0",
   GRAY_600: "#4b5563",
+  WHITE: "#ffffff",
 } as const;

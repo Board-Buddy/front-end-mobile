@@ -1,6 +1,8 @@
+import { COLORS } from "@/constants/colors";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import WebViewContainer from "../components/WebViewContainer";
 
 const WebViewScreen = () => {
@@ -15,7 +17,7 @@ const WebViewScreen = () => {
   }, [headerTitle, navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <WebViewContainer endpoint={`/${url}`} />
     </SafeAreaView>
   );
@@ -24,6 +26,7 @@ const WebViewScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.WHITE,
   },
 });
 
