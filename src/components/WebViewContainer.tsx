@@ -48,12 +48,20 @@ const handleDebugEvent = (message: DebugEvent) => {
 };
 
 const handleSaveStateEvent = (
+  getWebViewState: WebViewStateStore["getWebViewState"],
   setWebViewState: WebViewStateStore["setWebViewState"],
   message: SaveStateEvent
 ) => {
   const { key, state } = message;
 
   console.log("💾 Saving state for key:", key, "with state:", state);
+
+  const savedState = getWebViewState(key);
+
+  if (savedState && state !== null && typeof state === "object") {
+    setWebViewState(key, { ...savedState, ...state });
+    return;
+  }
 
   setWebViewState(key, state);
 };
@@ -98,7 +106,7 @@ const WebViewContainer = ({ endpoint }: Props) => {
           handleDebugEvent(message);
           break;
         case "SAVE_STATE":
-          handleSaveStateEvent(setWebViewState, message);
+          handleSaveStateEvent(getWebViewState, setWebViewState, message);
           break;
         case "REGISTER_STATE":
           handleRegisterStateEvent(getWebViewState, webViewRef, message);

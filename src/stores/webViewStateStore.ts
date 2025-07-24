@@ -7,7 +7,7 @@ interface WebViewStates {
 export interface WebViewStateStore {
   webViewStates: WebViewStates;
   setWebViewState: (key: string, value: unknown) => void;
-  getWebViewState: (key: string) => unknown;
+  getWebViewState: (key: string) => unknown | undefined;
   clearWebViewState: (key: string) => void;
 }
 
