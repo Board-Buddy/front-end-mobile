@@ -53,6 +53,8 @@ const handleSaveStateEvent = (
 ) => {
   const { key, state } = message;
 
+  console.log("💾 Saving state for key:", key, "with state:", state);
+
   setWebViewState(key, state);
 };
 
@@ -63,6 +65,8 @@ const handleRegisterStateEvent = (
 ) => {
   const { key } = message;
   const savedState = getWebViewState(key);
+
+  console.log("✅ Restoring state for key:", key, "with state:", savedState);
 
   if (savedState) {
     webViewRef.current?.postMessage(
