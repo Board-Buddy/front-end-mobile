@@ -1,6 +1,75 @@
-import { WebViewBridgeMessage } from "@/types/webview";
+import {
+  useWebViewStateStore,
+  WebViewStateStore,
+} from "@/stores/webViewStateStore";
+import {
+  DebugEvent,
+  RegisterStateEvent,
+  RouterEvent,
+  SaveStateEvent,
+  WebViewBridgeMessage,
+} from "@/types/webview";
 import { useRouter } from "expo-router";
+import { useRef } from "react";
 import WebView, { WebViewMessageEvent } from "react-native-webview";
+
+const WEBVIEW_HEADER = { "Accept-Language": "ko" };
+
+const getWebViewUri = (endpoint: string) => {
+  const separator = endpoint.includes("?") ? "&" : "?";
+  return `${process.env.EXPO_PUBLIC_WEB_VIEW_BASE_URL}${endpoint}${separator}webview=true`;
+};
+
+const handleRouterEvent = (
+  router: ReturnType<typeof useRouter>,
+  message: RouterEvent
+) => {
+  const { method, targetPath, webUrl, headerTitle, options } = message;
+  const route = {
+    pathname: targetPath,
+    params: { url: webUrl, headerTitle },
+  };
+
+  switch (method) {
+    case "PUSH":
+      router.push(route, options);
+      break;
+    case "REPLACE":
+      router.replace(route, options);
+      break;
+    case "BACK":
+      router.back();
+      break;
+  }
+};
+
+const handleDebugEvent = (message: DebugEvent) => {
+  console.log(message.payload);
+};
+
+const handleSaveStateEvent = (
+  setWebViewState: WebViewStateStore["setWebViewState"],
+  message: SaveStateEvent
+) => {
+  const { key, state } = message;
+
+  setWebViewState(key, state);
+};
+
+const handleRegisterStateEvent = (
+  getWebViewState: WebViewStateStore["getWebViewState"],
+  webViewRef: React.RefObject<WebView | null>,
+  message: RegisterStateEvent
+) => {
+  const { key } = message;
+  const savedState = getWebViewState(key);
+
+  if (savedState) {
+    webViewRef.current?.postMessage(
+      JSON.stringify({ type: "RESTORE_STATE", state: savedState })
+    );
+  }
+};
 
 interface Props {
   endpoint: string;
@@ -8,6 +77,8 @@ interface Props {
 
 const WebViewContainer = ({ endpoint }: Props) => {
   const router = useRouter();
+  const webViewRef = useRef<WebView | null>(null);
+  const { setWebViewState, getWebViewState } = useWebViewStateStore();
 
   const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
@@ -15,62 +86,35 @@ const WebViewContainer = ({ endpoint }: Props) => {
         event.nativeEvent.data
       ) as WebViewBridgeMessage;
 
-      if (message.type === "ROUTER_EVENT") {
-        const { method, targetPath, webUrl, headerTitle, options } = message;
-
-        switch (method) {
-          case "PUSH":
-            router.push(
-              {
-                pathname: targetPath,
-                params: {
-                  url: webUrl,
-                  headerTitle,
-                },
-              },
-              options
-            );
-            break;
-
-          case "REPLACE":
-            router.replace(
-              {
-                pathname: targetPath,
-                params: {
-                  url: webUrl,
-                  headerTitle,
-                },
-              },
-              options
-            );
-            break;
-
-          case "BACK":
-            router.back();
-            break;
-        }
-      } else if (message.type === "DEBUG") {
-        const { payload } = message;
-
-        console.log(payload);
+      switch (message.type) {
+        case "ROUTER_EVENT":
+          handleRouterEvent(router, message);
+          break;
+        case "DEBUG":
+          handleDebugEvent(message);
+          break;
+        case "SAVE_STATE":
+          handleSaveStateEvent(setWebViewState, message);
+          break;
+        case "REGISTER_STATE":
+          handleRegisterStateEvent(getWebViewState, webViewRef, message);
+          break;
+        default:
+          console.warn("Unknown message type:", message.type);
       }
     } catch (error) {
       console.warn("Invalid message format", error);
     }
   };
 
-  const separator = endpoint.includes("?") ? "&" : "?";
-  const uri = `${process.env.EXPO_PUBLIC_WEB_VIEW_BASE_URL}${endpoint}${separator}webview=true`;
-
   return (
     <WebView
+      ref={webViewRef}
       source={{
-        uri,
-        headers: {
-          "Accept-Language": "ko",
-        },
+        uri: getWebViewUri(endpoint),
+        headers: WEBVIEW_HEADER,
       }}
-      sharedCookiesEnabled={true} // TODO: 이거 없을때랑 있을때 직접 구분해보기!!
+      sharedCookiesEnabled={true}
       onMessage={handleWebViewMessage}
     />
   );

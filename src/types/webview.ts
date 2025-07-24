@@ -3,7 +3,7 @@ import { NavigationOptions } from "expo-router/build/global-state/routing";
 type NavigationMethod = "PUSH" | "REPLACE" | "BACK" | "FORWARD" | "GO_BACK";
 type RoutePath = "/" | "/chat" | "/map" | "/my";
 
-interface RouterEvent {
+export interface RouterEvent {
   type: "ROUTER_EVENT";
   method: NavigationMethod;
   targetPath: RoutePath;
@@ -12,9 +12,30 @@ interface RouterEvent {
   options?: NavigationOptions;
 }
 
-interface DebugEvent {
+export interface DebugEvent {
   type: "DEBUG";
   payload: string;
 }
 
-export type WebViewBridgeMessage = RouterEvent | DebugEvent;
+export interface SaveStateEvent {
+  type: "SAVE_STATE";
+  key: string;
+  state: unknown;
+}
+
+export interface RestoreStateEvent {
+  type: "RESTORE_STATE";
+  key: string;
+}
+
+export interface RegisterStateEvent {
+  type: "REGISTER_STATE";
+  key: string;
+}
+
+export type WebViewBridgeMessage =
+  | RouterEvent
+  | DebugEvent
+  | SaveStateEvent
+  | RestoreStateEvent
+  | RegisterStateEvent;
