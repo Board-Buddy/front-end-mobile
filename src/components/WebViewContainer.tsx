@@ -11,7 +11,10 @@ import {
 } from "@/types/webview";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
-import WebView, { WebViewMessageEvent } from "react-native-webview";
+import WebView, {
+  WebViewMessageEvent,
+  WebViewProps,
+} from "react-native-webview";
 
 const WEBVIEW_HEADER = { "Accept-Language": "ko" };
 
@@ -83,11 +86,11 @@ const handleRegisterStateEvent = (
   }
 };
 
-interface Props {
+interface Props extends WebViewProps {
   endpoint: string;
 }
 
-const WebViewContainer = ({ endpoint }: Props) => {
+const WebViewContainer = ({ endpoint, ...props }: Props) => {
   const router = useRouter();
   const webViewRef = useRef<WebView | null>(null);
   const { setWebViewState, getWebViewState } = useWebViewStateStore();
@@ -128,6 +131,7 @@ const WebViewContainer = ({ endpoint }: Props) => {
       }}
       sharedCookiesEnabled={true}
       onMessage={handleWebViewMessage}
+      {...props}
     />
   );
 };
