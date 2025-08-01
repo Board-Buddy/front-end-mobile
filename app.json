@@ -1,22 +1,27 @@
 {
   "expo": {
-    "name": "board-buddy-front-end-mobile",
+    "name": "보드버디",
     "slug": "board-buddy-front-end-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "boardbuddyfrontendmobile",
+    "scheme": "board-buddy",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.boardbuddi.boardbuddy",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.boardbuddi.boardbuddy"
     },
     "web": {
       "bundler": "metro",
@@ -31,12 +36,18 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#f49c01"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6bb95d54-4dfc-41b2-8d54-816914393b99"
+      }
     }
   }
 }
