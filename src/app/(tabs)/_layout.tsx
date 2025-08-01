@@ -52,7 +52,7 @@ export const TabLayout = () => {
         tabBarActiveTintColor: COLORS.PRIMARY,
         tabBarInactiveTintColor: COLORS.GRAY_500,
         tabBarLabelStyle: {
-          paddingTop: 4,
+          paddingTop: 2,
           fontSize: 12,
           fontWeight: "bold",
         },
