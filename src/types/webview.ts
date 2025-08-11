@@ -35,7 +35,7 @@ export interface RegisterStateEvent {
 
 export interface PermissionRequestEvent {
   type: "PERMISSION_REQUEST";
-  permission: "media-library" | "location" | "notification";
+  permissionType: "media-library" | "location" | "notification";
 }
 
 export type WebViewBridgeMessage =
