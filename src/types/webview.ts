@@ -33,9 +33,15 @@ export interface RegisterStateEvent {
   key: string;
 }
 
+export interface PermissionRequestEvent {
+  type: "PERMISSION_REQUEST";
+  permission: "media-library" | "location" | "notification";
+}
+
 export type WebViewBridgeMessage =
   | RouterEvent
   | DebugEvent
   | SaveStateEvent
   | RestoreStateEvent
-  | RegisterStateEvent;
+  | RegisterStateEvent
+  | PermissionRequestEvent;
