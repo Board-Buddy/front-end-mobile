@@ -1,5 +1,5 @@
-import WebViewContainer from "@/components/WebViewContainer";
 import { COLORS } from "@/constants/colors";
+import WebViewContainer from "@/features/webview/components/WebViewContainer";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 

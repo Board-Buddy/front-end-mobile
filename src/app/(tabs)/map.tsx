@@ -1,4 +1,4 @@
-import WebViewContainer from "@/components/WebViewContainer";
+import WebViewContainer from "@/features/webview/components/WebViewContainer";
 
 const MapScreen = () => {
   return <WebViewContainer endpoint="/map" />;
