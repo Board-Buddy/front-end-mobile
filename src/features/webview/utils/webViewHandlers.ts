@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import * as MediaLibrary from "expo-media-library";
-import { useRouter } from "expo-router";
+import { Href, useRouter } from "expo-router";
+import { NavigationOptions } from "expo-router/build/global-state/routing";
+import { Linking } from "react-native";
 import WebView from "react-native-webview";
 import { WebViewStateStore } from "../stores/webViewStateStore";
 import {
@@ -12,16 +14,28 @@ import {
   SaveStateMessage,
 } from "../types/webview";
 
-export const handleRouterMessage = (
-  router: ReturnType<typeof useRouter>,
-  message: RouterMessage
-) => {
-  const { method, targetPath, webUrl, headerTitle, options } = message.payload;
-  const route = {
-    pathname: targetPath,
-    params: { url: webUrl, headerTitle },
-  };
+// 내부 도메인 판별
+const isInternalUrl = (url: string) =>
+  url.startsWith(process.env.EXPO_PUBLIC_WEB_VIEW_BASE_URL!);
 
+// 외부 브라우저 열기
+const openExternalUrl = async (url: string) => {
+  const supported = await Linking.canOpenURL(url);
+
+  if (supported) {
+    await Linking.openURL(url);
+  } else {
+    console.warn(`이 URL을 열 수 없습니다. url: ${url}`);
+  }
+};
+
+// 라우터 메서드 실행
+const navigate = (
+  router: ReturnType<typeof useRouter>,
+  method: string,
+  route: Href,
+  options?: NavigationOptions
+) => {
   switch (method) {
     case "PUSH":
       router.push(route, options);
@@ -32,7 +46,28 @@ export const handleRouterMessage = (
     case "BACK":
       router.back();
       break;
+    default:
+      console.warn(`지원하지 않는 라우터 메서드: ${method}`);
   }
+};
+
+export const handleRouterMessage = (
+  router: ReturnType<typeof useRouter>,
+  message: RouterMessage
+) => {
+  const { method, targetPath, webUrl, headerTitle, options } = message.payload;
+
+  if (webUrl && !isInternalUrl(webUrl)) {
+    openExternalUrl(webUrl);
+    return;
+  }
+
+  const route = {
+    pathname: targetPath,
+    params: { url: webUrl, headerTitle },
+  };
+
+  navigate(router, method, route, options);
 };
 
 export const handleDebugMessage = (message: DebugMessage) =>
