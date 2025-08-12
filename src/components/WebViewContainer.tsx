@@ -4,11 +4,15 @@ import {
 } from "@/stores/webViewStateStore";
 import {
   DebugEvent,
+  PermissionRequestEvent,
   RegisterStateEvent,
   RouterEvent,
   SaveStateEvent,
   WebViewBridgeMessage,
 } from "@/types/webview";
+import * as Location from "expo-location";
+import * as MediaLibrary from "expo-media-library";
+
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import WebView, {
@@ -47,7 +51,7 @@ const handleRouterEvent = (
 };
 
 const handleDebugEvent = (message: DebugEvent) => {
-  console.log(message.payload);
+  console.log("📨 from web:", message.payload);
 };
 
 const handleSaveStateEvent = (
@@ -86,6 +90,46 @@ const handleRegisterStateEvent = (
   }
 };
 
+const requestMediaLibraryPermission = async () =>
+  await MediaLibrary.requestPermissionsAsync().then((res) => res.status);
+
+const requestLocationPermission = async () =>
+  await Location.requestForegroundPermissionsAsync().then((res) => res.status);
+
+const handlePermissionRequestEvent = async (
+  webViewRef: React.RefObject<WebView | null>,
+  message: PermissionRequestEvent
+) => {
+  const { permissionType } = message;
+  let status;
+
+  switch (permissionType) {
+    case "media-library":
+      status = await requestMediaLibraryPermission();
+      break;
+    case "location":
+      status = await requestLocationPermission();
+      break;
+    default:
+      console.warn("Unknown permission type:", message.permissionType);
+  }
+
+  webViewRef.current?.postMessage(
+    JSON.stringify({ type: "PERMISSION_STATUS", state: status })
+  );
+};
+
+const handleGetLocationEvent = async (
+  webViewRef: React.RefObject<WebView | null>
+) => {
+  const { coords } = await Location.getCurrentPositionAsync();
+  const { latitude, longitude } = coords;
+
+  webViewRef.current?.postMessage(
+    JSON.stringify({ type: "LOCATION", state: { latitude, longitude } })
+  );
+};
+
 interface Props extends WebViewProps {
   endpoint: string;
 }
@@ -113,6 +157,12 @@ const WebViewContainer = ({ endpoint, ...props }: Props) => {
           break;
         case "REGISTER_STATE":
           handleRegisterStateEvent(getWebViewState, webViewRef, message);
+          break;
+        case "PERMISSION_REQUEST":
+          handlePermissionRequestEvent(webViewRef, message);
+          break;
+        case "GET_LOCATION":
+          handleGetLocationEvent(webViewRef);
           break;
         default:
           console.warn("Unknown message type:", message.type);

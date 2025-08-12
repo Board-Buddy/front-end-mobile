@@ -38,10 +38,15 @@ export interface PermissionRequestEvent {
   permissionType: "media-library" | "location" | "notification";
 }
 
+export interface LocationEvent {
+  type: "GET_LOCATION";
+}
+
 export type WebViewBridgeMessage =
   | RouterEvent
   | DebugEvent
   | SaveStateEvent
   | RestoreStateEvent
   | RegisterStateEvent
-  | PermissionRequestEvent;
+  | PermissionRequestEvent
+  | LocationEvent;

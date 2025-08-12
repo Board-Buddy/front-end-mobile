@@ -38,6 +38,19 @@
           "resizeMode": "contain",
           "backgroundColor": "#f49c01"
         }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "사진첩에 접근하기 위해 권한이 필요합니다."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "주변의 보드게임 카페를 확인하기 위해 위치 접근 권한이 필요합니다.",
+          "isAndroidForegroundServiceEnabled": true
+        }
       ]
     ],
     "experiments": {
