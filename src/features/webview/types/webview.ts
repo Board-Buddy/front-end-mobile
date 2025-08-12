@@ -11,6 +11,7 @@ export enum MessageType {
   LOCATION = "LOCATION",
   GET_LOCATION = "GET_LOCATION",
 }
+export type RoutePath = "/" | "/chat" | "/map" | "/my";
 
 export type NavigationMethod =
   | "PUSH"
@@ -21,41 +22,51 @@ export type NavigationMethod =
 
 export type PermissionType = "media-library" | "location" | "notification";
 
-export type RoutePath = "/" | "/chat" | "/map" | "/my";
-
 export interface RouterMessage {
   type: MessageType.ROUTER;
-  method: NavigationMethod;
-  targetPath: RoutePath;
-  webUrl: string;
-  headerTitle?: string;
-  options?: NavigationOptions;
+  payload: {
+    method: NavigationMethod;
+    targetPath: RoutePath;
+    webUrl?: string;
+    headerTitle?: string;
+    options?: NavigationOptions;
+  };
 }
 
 export interface DebugMessage {
   type: MessageType.DEBUG;
-  payload: string;
+  payload: {
+    log: string;
+  };
 }
 
 export interface SaveStateMessage {
   type: MessageType.SAVE_STATE;
-  key: string;
-  state: unknown;
+  payload: {
+    key: string;
+    state: unknown;
+  };
 }
 
 export interface RestoreStateMessage {
   type: MessageType.RESTORE_STATE;
-  key: string;
+  payload: {
+    key: string;
+  };
 }
 
 export interface RegisterStateMessage {
   type: MessageType.REGISTER_STATE;
-  key: string;
+  payload: {
+    key: string;
+  };
 }
 
 export interface PermissionRequestMessage {
   type: MessageType.PERMISSION_REQUEST;
-  permissionType: PermissionType;
+  payload: {
+    permissionType: PermissionType;
+  };
 }
 
 export interface GetLocationMessage {

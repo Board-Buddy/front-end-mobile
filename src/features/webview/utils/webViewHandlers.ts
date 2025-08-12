@@ -16,7 +16,7 @@ export const handleRouterMessage = (
   router: ReturnType<typeof useRouter>,
   message: RouterMessage
 ) => {
-  const { method, targetPath, webUrl, headerTitle, options } = message;
+  const { method, targetPath, webUrl, headerTitle, options } = message.payload;
   const route = {
     pathname: targetPath,
     params: { url: webUrl, headerTitle },
@@ -35,16 +35,15 @@ export const handleRouterMessage = (
   }
 };
 
-export const handleDebugMessage = (message: DebugMessage) => {
-  console.log("📨 from web:", message.payload);
-};
+export const handleDebugMessage = (message: DebugMessage) =>
+  console.log("📨 from web:", message.payload.log);
 
 export const handleSaveStateMessage = (
   getWebViewState: WebViewStateStore["getWebViewState"],
   setWebViewState: WebViewStateStore["setWebViewState"],
   message: SaveStateMessage
 ) => {
-  const { key, state } = message;
+  const { key, state } = message.payload;
 
   console.log("💾 Saving state for key:", key, "with state:", state);
 
@@ -63,7 +62,7 @@ export const handleRegisterStateMessage = (
   webViewRef: React.RefObject<WebView | null>,
   message: RegisterStateMessage
 ) => {
-  const { key } = message;
+  const { key } = message.payload;
   const savedState = getWebViewState(key);
 
   console.log("✅ Restoring state for key:", key, "with state:", savedState);
@@ -79,7 +78,7 @@ export const handlePermissionRequestMessage = async (
   webViewRef: React.RefObject<WebView | null>,
   message: PermissionRequestMessage
 ) => {
-  const { permissionType } = message;
+  const { permissionType } = message.payload;
   let status;
 
   switch (permissionType) {
@@ -94,7 +93,7 @@ export const handlePermissionRequestMessage = async (
       );
       break;
     default:
-      console.warn("Unknown permission type:", message.permissionType);
+      console.warn("Unknown permission type:", message.payload.permissionType);
   }
 
   webViewRef.current?.postMessage(
