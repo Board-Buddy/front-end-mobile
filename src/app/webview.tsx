@@ -2,7 +2,7 @@ import { COLORS } from "@/constants/colors";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { Edges, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import WebViewContainer from "../features/webview/components/WebViewContainer";
 
 const WebViewScreen = () => {
@@ -16,10 +16,8 @@ const WebViewScreen = () => {
     });
   }, [headerTitle, navigation]);
 
-  const edges: Edges = url.includes("search") ? ["top", "bottom"] : ["bottom"];
-
   return (
-    <SafeAreaView style={styles.container} edges={edges}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <WebViewContainer endpoint={`/${url}`} />
     </SafeAreaView>
   );
