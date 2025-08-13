@@ -14,9 +14,11 @@ import {
   SaveStateMessage,
 } from "../types/webview";
 
-// 내부 도메인 판별
-const isInternalUrl = (url: string) =>
-  url.startsWith(process.env.EXPO_PUBLIC_WEB_VIEW_BASE_URL!);
+// 도메인 판별
+// 내부 도메인일 경우 url scheme을 제외하고 상대 경로만 오기 때문에,
+// http 혹은 https가 포함되어 있다면 외부 도메인으로 판단
+const isExternal = (url: string) =>
+  url.startsWith("http") || url.startsWith("https");
 
 // 외부 브라우저 열기
 const openExternalUrl = async (url: string) => {
@@ -57,7 +59,7 @@ export const handleRouterMessage = (
 ) => {
   const { method, targetPath, webUrl, headerTitle, options } = message.payload;
 
-  if (webUrl && !isInternalUrl(webUrl)) {
+  if (webUrl && isExternal(webUrl)) {
     openExternalUrl(webUrl);
     return;
   }
