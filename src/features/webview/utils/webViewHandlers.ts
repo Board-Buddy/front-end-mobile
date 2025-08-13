@@ -160,14 +160,8 @@ export const handleToastMessage = (message: ToastMessage) => {
   Toast.show({
     type,
     text1: title,
-    text1Style: {
-      fontSize: Platform.OS === "android" ? 14 : 18,
-    },
     text2: description,
-    text2Style: {
-      fontSize: Platform.OS === "android" ? 12 : 16,
-    },
-    topOffset: Platform.OS === "android" ? 40 : 60,
     visibilityTime: duration,
+    topOffset: Platform.OS === "android" ? 40 : 60,
   });
 };

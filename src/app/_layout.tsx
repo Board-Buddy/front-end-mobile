@@ -1,3 +1,4 @@
+import { toastConfig } from "@/components/CustomToast";
 import { COLORS } from "@/constants/colors";
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -22,7 +23,7 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-      <Toast />
+      <Toast config={toastConfig} />
     </SafeAreaProvider>
   );
 }
