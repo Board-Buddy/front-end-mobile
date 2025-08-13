@@ -2,7 +2,8 @@ import * as Location from "expo-location";
 import * as MediaLibrary from "expo-media-library";
 import { Href, useRouter } from "expo-router";
 import { NavigationOptions } from "expo-router/build/global-state/routing";
-import { Linking } from "react-native";
+import { Linking, Platform } from "react-native";
+import Toast from "react-native-toast-message";
 import WebView from "react-native-webview";
 import { WebViewStateStore } from "../stores/webViewStateStore";
 import {
@@ -12,6 +13,7 @@ import {
   RegisterStateMessage,
   RouterMessage,
   SaveStateMessage,
+  ToastMessage,
 } from "../types/webview";
 
 // 도메인 판별
@@ -150,4 +152,22 @@ export const handleGetLocationMessage = async (
       state: { latitude, longitude },
     })
   );
+};
+
+export const handleToastMessage = (message: ToastMessage) => {
+  const { type, title, description, duration } = message.payload;
+
+  Toast.show({
+    type,
+    text1: title,
+    text1Style: {
+      fontSize: Platform.OS === "android" ? 14 : 18,
+    },
+    text2: description,
+    text2Style: {
+      fontSize: Platform.OS === "android" ? 12 : 16,
+    },
+    topOffset: Platform.OS === "android" ? 40 : 60,
+    visibilityTime: duration,
+  });
 };

@@ -17,6 +17,7 @@ import {
   handleRegisterStateMessage,
   handleRouterMessage,
   handleSaveStateMessage,
+  handleToastMessage,
 } from "../utils/webViewHandlers";
 
 const WEBVIEW_HEADER = { "Accept-Language": "ko" };
@@ -59,6 +60,9 @@ const WebViewContainer = ({ endpoint, ...props }: Props) => {
           break;
         case MessageType.GET_LOCATION:
           handleGetLocationMessage(webViewRef);
+          break;
+        case MessageType.TOAST:
+          handleToastMessage(message);
           break;
         default:
           console.warn("Unknown message type:", message.type);

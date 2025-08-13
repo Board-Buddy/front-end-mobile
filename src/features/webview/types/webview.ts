@@ -10,6 +10,7 @@ export enum MessageType {
   PERMISSION_STATUS = "PERMISSION_STATUS",
   LOCATION = "LOCATION",
   GET_LOCATION = "GET_LOCATION",
+  TOAST = "TOAST",
 }
 export type RoutePath = "/" | "/chat" | "/map" | "/my";
 
@@ -73,6 +74,16 @@ export interface GetLocationMessage {
   type: MessageType.GET_LOCATION;
 }
 
+export interface ToastMessage {
+  type: MessageType.TOAST;
+  payload: {
+    type: "success" | "info" | "error";
+    title: string;
+    description?: string;
+    duration?: number;
+  };
+}
+
 export type WebViewBridgeMessage =
   | RouterMessage
   | DebugMessage
@@ -80,4 +91,5 @@ export type WebViewBridgeMessage =
   | RestoreStateMessage
   | RegisterStateMessage
   | PermissionRequestMessage
-  | GetLocationMessage;
+  | GetLocationMessage
+  | ToastMessage;
