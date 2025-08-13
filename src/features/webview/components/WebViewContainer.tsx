@@ -3,9 +3,10 @@ import {
   MessageType,
   WebViewBridgeMessage,
 } from "@/features/webview/types/webview";
-
+import useKeyboardVisible from "@/hooks/useKeyboardVisible";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import WebView, {
   WebViewMessageEvent,
   WebViewProps,
@@ -35,6 +36,8 @@ const WebViewContainer = ({ endpoint, ...props }: Props) => {
   const router = useRouter();
   const webViewRef = useRef<WebView | null>(null);
   const { setWebViewState, getWebViewState } = useWebViewStateStore();
+
+  const keyboardVisible = useKeyboardVisible();
 
   const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
@@ -73,16 +76,23 @@ const WebViewContainer = ({ endpoint, ...props }: Props) => {
   };
 
   return (
-    <WebView
-      ref={webViewRef}
-      source={{
-        uri: getWebViewUri(endpoint),
-        headers: WEBVIEW_HEADER,
-      }}
-      sharedCookiesEnabled={true}
-      onMessage={handleWebViewMessage}
-      {...props}
-    />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior="padding"
+      enabled={Platform.OS === "android"}
+      keyboardVerticalOffset={keyboardVisible ? 0 : 80}
+    >
+      <WebView
+        ref={webViewRef}
+        source={{
+          uri: getWebViewUri(endpoint),
+          headers: WEBVIEW_HEADER,
+        }}
+        sharedCookiesEnabled={true}
+        onMessage={handleWebViewMessage}
+        {...props}
+      />
+    </KeyboardAvoidingView>
   );
 };
 
