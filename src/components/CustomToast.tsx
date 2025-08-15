@@ -9,6 +9,9 @@ export const toastConfig = {
   error: (props: BaseToastProps) => (
     <CustomToast {...props} style={{ borderLeftColor: "red" }} />
   ),
+  info: (props: BaseToastProps) => (
+    <CustomToast {...props} style={{ borderLeftColor: "gray" }} />
+  ),
 };
 
 const CustomToast = (props: BaseToastProps) => {
