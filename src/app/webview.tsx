@@ -17,7 +17,10 @@ const WebViewScreen = () => {
   }, [headerTitle, navigation]);
 
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
+    <SafeAreaView
+      style={styles.container}
+      edges={url.includes("login") ? ["top", "bottom"] : ["bottom"]}
+    >
       <WebViewContainer endpoint={`/${url}`} />
     </SafeAreaView>
   );
