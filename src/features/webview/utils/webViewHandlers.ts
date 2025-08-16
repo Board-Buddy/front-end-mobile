@@ -14,11 +14,18 @@ import {
   LoginMessage,
   MessageType,
   PermissionRequestMessage,
+  PermissionStatus,
   RegisterStateMessage,
   RouterMessage,
   SaveStateMessage,
   ToastMessage,
+  WebViewBridgeMessage,
 } from "../types/webview";
+
+const postWVMessage = <T extends WebViewBridgeMessage>(
+  webView: WebView,
+  message: T
+) => webView.postMessage(JSON.stringify(message));
 
 // 도메인 판별
 // 내부 도메인일 경우 url scheme을 제외하고 상대 경로만 오기 때문에,
@@ -110,10 +117,11 @@ export const handleRegisterStateMessage = (
 
   console.log("✅ Restoring state for key:", key, "with state:", savedState);
 
-  if (savedState) {
-    webViewRef.current?.postMessage(
-      JSON.stringify({ type: MessageType.RESTORE_STATE, state: savedState })
-    );
+  if (savedState && webViewRef.current) {
+    postWVMessage(webViewRef.current, {
+      type: MessageType.RESTORE_STATE,
+      payload: { state: savedState },
+    });
   }
 };
 
@@ -122,7 +130,7 @@ export const handlePermissionRequestMessage = async (
   message: PermissionRequestMessage
 ) => {
   const { permissionType } = message.payload;
-  let status;
+  let status: PermissionStatus = "undetermined";
 
   switch (permissionType) {
     case "media-library":
@@ -139,9 +147,12 @@ export const handlePermissionRequestMessage = async (
       console.warn("Unknown permission type:", message.payload.permissionType);
   }
 
-  webViewRef.current?.postMessage(
-    JSON.stringify({ type: MessageType.PERMISSION_STATUS, state: status })
-  );
+  if (webViewRef.current) {
+    postWVMessage(webViewRef.current, {
+      type: MessageType.PERMISSION_STATUS,
+      payload: { status },
+    });
+  }
 };
 
 export const handleGetLocationMessage = async (
@@ -150,12 +161,12 @@ export const handleGetLocationMessage = async (
   const { coords } = await Location.getCurrentPositionAsync();
   const { latitude, longitude } = coords;
 
-  webViewRef.current?.postMessage(
-    JSON.stringify({
+  if (webViewRef.current) {
+    postWVMessage(webViewRef.current, {
       type: MessageType.LOCATION,
-      state: { latitude, longitude },
-    })
-  );
+      payload: { latitude, longitude },
+    });
+  }
 };
 
 export const handleToastMessage = (message: ToastMessage) => {
@@ -188,12 +199,10 @@ export const handleGetUserInfoMessage = (
   const { userInfo } = useUserInfoStore.getState();
 
   if (webViewRef?.current) {
-    webViewRef.current.postMessage(
-      JSON.stringify({
-        type: MessageType.USER_INFO,
-        state: userInfo,
-      })
-    );
+    postWVMessage(webViewRef.current, {
+      type: MessageType.USER_INFO,
+      payload: userInfo,
+    });
   }
 };
 

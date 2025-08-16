@@ -27,8 +27,6 @@ export type NavigationMethod =
   | "FORWARD"
   | "GO_BACK";
 
-export type PermissionType = "media-library" | "location" | "notification";
-
 export interface RouterMessage {
   type: MessageType.ROUTER;
   payload: {
@@ -58,7 +56,7 @@ export interface SaveStateMessage {
 export interface RestoreStateMessage {
   type: MessageType.RESTORE_STATE;
   payload: {
-    key: string;
+    state: unknown;
   };
 }
 
@@ -69,10 +67,28 @@ export interface RegisterStateMessage {
   };
 }
 
+export type PermissionType = "media-library" | "location" | "notification";
+export type PermissionStatus = "undetermined" | "granted" | "denied";
+
 export interface PermissionRequestMessage {
   type: MessageType.PERMISSION_REQUEST;
   payload: {
     permissionType: PermissionType;
+  };
+}
+
+export interface PermissionStatusMessage {
+  type: MessageType.PERMISSION_STATUS;
+  payload: {
+    status: PermissionStatus;
+  };
+}
+
+export interface LocationMessage {
+  type: MessageType.LOCATION;
+  payload: {
+    latitude: number;
+    longitude: number;
   };
 }
 
@@ -101,7 +117,7 @@ export interface LogoutMessage {
 
 export interface UserInfoMessage {
   type: MessageType.USER_INFO;
-  payload: UserInfo;
+  payload: UserInfo | null;
 }
 
 export interface GetUserInfoMessage {
@@ -120,7 +136,9 @@ export type WebViewBridgeMessage =
   | RestoreStateMessage
   | RegisterStateMessage
   | PermissionRequestMessage
+  | PermissionStatusMessage
   | GetLocationMessage
+  | LocationMessage
   | ToastMessage
   | LoginMessage
   | LogoutMessage
