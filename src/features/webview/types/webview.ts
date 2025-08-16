@@ -1,4 +1,5 @@
 import { NavigationOptions } from "expo-router/build/global-state/routing";
+import { UserInfo } from "../stores/userInfoStore";
 
 export enum MessageType {
   ROUTER = "ROUTER",
@@ -11,6 +12,11 @@ export enum MessageType {
   LOCATION = "LOCATION",
   GET_LOCATION = "GET_LOCATION",
   TOAST = "TOAST",
+  LOGIN = "LOGIN",
+  LOGOUT = "LOGOUT",
+  USER_INFO = "USER_INFO",
+  GET_USER_INFO = "GET_USER_INFO",
+  EDIT_USER_INFO = "EDIT_USER_INFO",
 }
 export type RoutePath = "/" | "/chat" | "/map" | "/my";
 
@@ -84,6 +90,29 @@ export interface ToastMessage {
   };
 }
 
+export interface LoginMessage {
+  type: MessageType.LOGIN;
+  payload: UserInfo;
+}
+
+export interface LogoutMessage {
+  type: MessageType.LOGOUT;
+}
+
+export interface UserInfoMessage {
+  type: MessageType.USER_INFO;
+  payload: UserInfo;
+}
+
+export interface GetUserInfoMessage {
+  type: MessageType.GET_USER_INFO;
+}
+
+export interface EditUserInfoMessage {
+  type: MessageType.EDIT_USER_INFO;
+  payload: UserInfo;
+}
+
 export type WebViewBridgeMessage =
   | RouterMessage
   | DebugMessage
@@ -92,4 +121,9 @@ export type WebViewBridgeMessage =
   | RegisterStateMessage
   | PermissionRequestMessage
   | GetLocationMessage
-  | ToastMessage;
+  | ToastMessage
+  | LoginMessage
+  | LogoutMessage
+  | UserInfoMessage
+  | GetUserInfoMessage
+  | EditUserInfoMessage;
