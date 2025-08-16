@@ -104,7 +104,11 @@ const WebViewContainer = ({ endpoint, tabLayout = false, ...props }: Props) => {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior="padding"
-      enabled={Platform.OS === "android" && !endpoint.includes("home")} // 홈 화면에서 검색어 입력 시 키보드 위로 생기는 여백 방지
+      enabled={
+        Platform.OS === "android" &&
+        !endpoint.includes("home") && // 홈 화면에서 검색어 입력 시 키보드 위로 생기는 여백 방지
+        !endpoint.includes("login") // 로그인 화면에서 input 클릭 시 키보드 위로 생기는 여백 방지
+      }
       keyboardVerticalOffset={keyboardVisible ? 0 : 80}
     >
       <WebView
