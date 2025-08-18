@@ -1,50 +1,46 @@
-# Welcome to your Expo app 👋
+# 보드버디
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 개요
+- 웹 서비스를 WebView로 감싸서 앱으로 만든 프로젝트입니다.
+- 웹 서비스 상세 기능은 [보드버디 레포지토리](https://github.com/Board-Buddy/front-end)를 참고해주세요.
 
-## Get started
+<br/>
 
-1. Install dependencies
+## 실행 영상
+- 추가 예정인 섹션입니다.
 
-   ```bash
+<br/>
+
+## 실행 방법
+1. 레포지토리 클론
+   ```shell
+   git clone https://github.com/Board-Buddy/front-end-mobile.git
+   cd front-end-mobile
+   ```
+2. 의존성 설치
+   ```shell
    npm install
    ```
-
-2. Start the app
-
-   ```bash
+3. `.env.local` 파일 생성
+   ```shell
+   # 웹뷰가 접근할 웹 서비스 기본 URL 지정
+   EXPO_PUBLIC_WEB_VIEW_BASE_URL='https://m.boardbuddi.com' 
+   ```
+4. 개발 서버 시작
+   ```shell
    npx expo start
    ```
+   - 생성되는 QR을 통해 [Expo Go](https://expo.dev/go) 앱에서 확인할 수 있습니다.
 
-In the output, you'll find options to open the app in a
+<br/>
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 앱 개발 중 고려한 주요 사항
+- [앱-웹뷰 화면 전환 구조 통일하기](https://yuuub.notion.site/233963c8b3a78001a436c18c5755c32a?source=copy_link)
+- [앱-웹뷰 상태 동기화 인터페이스 설계하기](https://yuuub.notion.site/252963c8b3a780b49939f245a590242a?source=copy_link)
+- [앱 권한 관리](https://yuuub.notion.site/252963c8b3a7803e857edec3f44828db?source=copy_link)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+<!--
+## 배포
+- Android: Google Play
+- iOS: App Store
+-->
