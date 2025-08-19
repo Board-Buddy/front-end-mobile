@@ -4,8 +4,8 @@ import {
   WebViewBridgeMessage,
 } from "@/features/webview/types/webview";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible";
-import { useFocusEffect, useRouter } from "expo-router";
-import { useCallback, useRef } from "react";
+import { useRouter } from "expo-router";
+import { useRef } from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import WebView, {
   WebViewMessageEvent,
@@ -13,11 +13,7 @@ import WebView, {
 } from "react-native-webview";
 import {
   handleDebugMessage,
-  handleEditUserInfo,
   handleGetLocationMessage,
-  handleGetUserInfoMessage,
-  handleLoginMessage,
-  handleLogoutMessage,
   handlePermissionRequestMessage,
   handleRegisterStateMessage,
   handleRouterMessage,
@@ -42,15 +38,6 @@ const WebViewContainer = ({ endpoint, tabLayout = false, ...props }: Props) => {
   const webViewRef = useRef<WebView | null>(null);
   const { setWebViewState, getWebViewState } = useWebViewStateStore();
   const keyboardVisible = useKeyboardVisible();
-
-  useFocusEffect(
-    // 탭 레이아웃인 경우 페이지가 활성화될 때마다 유저 정보 전송
-    useCallback(() => {
-      if (!tabLayout) return;
-
-      handleGetUserInfoMessage(webViewRef);
-    }, [tabLayout])
-  );
 
   const handleWebViewMessage = (event: WebViewMessageEvent) => {
     try {
@@ -79,18 +66,6 @@ const WebViewContainer = ({ endpoint, tabLayout = false, ...props }: Props) => {
           break;
         case MessageType.TOAST:
           handleToastMessage(message);
-          break;
-        case MessageType.LOGIN:
-          handleLoginMessage(message);
-          break;
-        case MessageType.LOGOUT:
-          handleLogoutMessage();
-          break;
-        case MessageType.GET_USER_INFO:
-          handleGetUserInfoMessage(webViewRef);
-          break;
-        case MessageType.EDIT_USER_INFO:
-          handleEditUserInfo(message);
           break;
         default:
           console.warn("Unknown message type:", message.type);

@@ -2,16 +2,12 @@ import * as Location from "expo-location";
 import * as MediaLibrary from "expo-media-library";
 import { Href, useRouter } from "expo-router";
 import { NavigationOptions } from "expo-router/build/global-state/routing";
-import { RefObject } from "react";
 import { Linking, Platform } from "react-native";
 import Toast from "react-native-toast-message";
 import WebView from "react-native-webview";
-import { useUserInfoStore } from "../stores/userInfoStore";
 import { WebViewStateStore } from "../stores/webViewStateStore";
 import {
   DebugMessage,
-  EditUserInfoMessage,
-  LoginMessage,
   MessageType,
   PermissionRequestMessage,
   PermissionStatus,
@@ -179,35 +175,4 @@ export const handleToastMessage = (message: ToastMessage) => {
     visibilityTime: duration,
     topOffset: Platform.OS === "android" ? 40 : 60,
   });
-};
-
-export const handleLoginMessage = (message: LoginMessage) => {
-  const { setUserInfo } = useUserInfoStore.getState();
-
-  setUserInfo(message.payload);
-};
-
-export const handleLogoutMessage = () => {
-  const { clearUserInfo } = useUserInfoStore.getState();
-
-  clearUserInfo();
-};
-
-export const handleGetUserInfoMessage = (
-  webViewRef: RefObject<WebView | null>
-) => {
-  const { userInfo } = useUserInfoStore.getState();
-
-  if (webViewRef?.current) {
-    postWVMessage(webViewRef.current, {
-      type: MessageType.USER_INFO,
-      payload: userInfo,
-    });
-  }
-};
-
-export const handleEditUserInfo = (message: EditUserInfoMessage) => {
-  const { setUserInfo } = useUserInfoStore.getState();
-
-  setUserInfo(message.payload);
 };
