@@ -113,10 +113,10 @@ export const handleRegisterStateMessage = (
 
   console.log("✅ Restoring state for key:", key, "with state:", savedState);
 
-  if (savedState && webViewRef.current) {
+  if (webViewRef.current) {
     postWVMessage(webViewRef.current, {
       type: MessageType.RESTORE_STATE,
-      payload: { state: savedState },
+      payload: { state: savedState === undefined ? null : savedState },
     });
   }
 };
