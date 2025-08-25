@@ -21,12 +21,7 @@ import {
   handleToastMessage,
 } from "../utils/webViewHandlers";
 
-const WEBVIEW_HEADER = { "Accept-Language": "ko" };
-
-const getWebViewUri = (endpoint: string) => {
-  const separator = endpoint.includes("?") ? "&" : "?";
-  return `${process.env.EXPO_PUBLIC_WEB_VIEW_BASE_URL}${endpoint}${separator}webview=true`;
-};
+const WEBVIEW_HEADER = { "Accept-Language": "ko", "X-WebView": "true" };
 
 interface Props extends WebViewProps {
   endpoint: string;
@@ -89,7 +84,7 @@ const WebViewContainer = ({ endpoint, tabLayout = false, ...props }: Props) => {
       <WebView
         ref={webViewRef}
         source={{
-          uri: getWebViewUri(endpoint),
+          uri: `${process.env.EXPO_PUBLIC_WEB_VIEW_BASE_URL}${endpoint}`,
           headers: WEBVIEW_HEADER,
         }}
         sharedCookiesEnabled={true}
