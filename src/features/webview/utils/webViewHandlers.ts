@@ -116,7 +116,7 @@ export const handleRegisterStateMessage = (
   if (webViewRef.current) {
     postWVMessage(webViewRef.current, {
       type: MessageType.RESTORE_STATE,
-      payload: { state: savedState === undefined ? null : savedState },
+      payload: { key, state: savedState === undefined ? null : savedState },
     });
   }
 };

@@ -51,6 +51,7 @@ export interface SaveStateMessage {
 export interface RestoreStateMessage {
   type: MessageType.RESTORE_STATE;
   payload: {
+    key: string;
     state: unknown;
   };
 }
