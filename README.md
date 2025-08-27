@@ -1,13 +1,48 @@
 # 보드버디
 
 ## 개요
-- 웹 서비스를 WebView로 감싸서 앱으로 만든 프로젝트입니다.
-- 웹 서비스 상세 기능은 [보드버디 레포지토리](https://github.com/Board-Buddy/front-end)를 참고해주세요.
+- 보드게임 할 사람, 여기 버디 모여라!
+- 웹뷰를 기반으로 만든 보드버디 모바일 앱입니다. ([보드버디 웹 서비스 바로가기](https://m.boardbuddi.com))
 
 <br/>
 
 ## 실행 영상
-- 추가 예정인 섹션입니다.
+
+### 스플래시 화면
+
+https://github.com/user-attachments/assets/356ca2fe-fbd3-4b66-8b8c-1749e9731139
+
+<br/>
+
+### 위치 권한 요청 및 처리
+- 권한 거부 시 안내 문구 표시  
+
+https://github.com/user-attachments/assets/27890992-0cf3-4c33-ab05-468739a26b2f
+
+- 권한 허용 시 주변 보드게임 카페 지도 표시  
+
+https://github.com/user-attachments/assets/ddde0604-f06b-4007-a44d-9c8578b9f8e1
+
+<br/>
+
+### 갤러리 권한 요청 및 처리
+- 권한 거부 시 토스트 안내 표시  
+
+https://github.com/user-attachments/assets/6f875fd8-67ee-4f63-b7c3-28983bf541bf
+
+- 권한 허용 시 갤러리 접근 가능  
+
+https://github.com/user-attachments/assets/17ae49db-c8ee-4371-8a09-d1aab045fda3
+
+<br/>
+
+### 화면 전환 구조
+
+https://github.com/user-attachments/assets/927ce554-0090-417d-9251-44055cd6caef
+
+> 이외에도 웹 서비스에서 지원하는 대부분의 기능들을 지원하고 있습니다.  
+> 웹 서비스 상세 기능은 [보드버디 레포지토리 README](https://github.com/Board-Buddy/front-end)를 참고해주세요.
+  
 
 <br/>
 
