@@ -71,7 +71,7 @@ https://github.com/user-attachments/assets/927ce554-0090-417d-9251-44055cd6caef
 
 ## 앱 개발 중 고려한 주요 사항
 - [앱-웹뷰 화면 전환 구조 통일하기](https://yuuub.notion.site/233963c8b3a78001a436c18c5755c32a?source=copy_link)
-- [앱-웹뷰 상태 동기화 인터페이스 설계하기](https://yuuub.notion.site/252963c8b3a780b49939f245a590242a?source=copy_link)
+- [React Native WebView 전환 시 상태 날림 문제 해결하기](https://yuuub.notion.site/252963c8b3a780b49939f245a590242a?source=copy_link)
 - [앱 권한 관리](https://yuuub.notion.site/252963c8b3a7803e857edec3f44828db?source=copy_link)
 
 <!--
