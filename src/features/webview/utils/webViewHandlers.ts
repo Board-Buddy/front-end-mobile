@@ -1,5 +1,5 @@
+import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-import * as MediaLibrary from "expo-media-library";
 import { Href, useRouter } from "expo-router";
 import { NavigationOptions } from "expo-router/build/global-state/routing";
 import { Linking, Platform } from "react-native";
@@ -129,11 +129,6 @@ export const handlePermissionRequestMessage = async (
   let status: PermissionStatus = "undetermined";
 
   switch (permissionType) {
-    case "media-library":
-      status = await MediaLibrary.requestPermissionsAsync().then(
-        (res) => res.status
-      );
-      break;
     case "location":
       status = await Location.requestForegroundPermissionsAsync().then(
         (res) => res.status
@@ -175,4 +170,45 @@ export const handleToastMessage = (message: ToastMessage) => {
     visibilityTime: duration,
     topOffset: Platform.OS === "android" ? 40 : 60,
   });
+};
+
+export const handlePickImageMessage = async (
+  webViewRef: React.RefObject<WebView | null>
+) => {
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ["images"],
+    allowsEditing: false,
+  });
+
+  if (!webViewRef.current) {
+    console.warn("WebView reference is null");
+    return;
+  }
+
+  if (result.canceled) return;
+
+  const imageUri = result.assets[0].uri;
+
+  // 이미지 파일을 blob으로 변환 후 base64 인코딩
+  try {
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+
+    // blob -> base64
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result as string;
+
+      if (!webViewRef.current) return;
+
+      postWVMessage(webViewRef.current, {
+        type: MessageType.IMAGE,
+        payload: { data: base64data },
+      });
+    };
+
+    reader.readAsDataURL(blob);
+  } catch (error) {
+    console.error("이미지 base64 인코딩 실패: ", error);
+  }
 };

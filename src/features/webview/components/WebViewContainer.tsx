@@ -15,6 +15,7 @@ import {
   handleDebugMessage,
   handleGetLocationMessage,
   handlePermissionRequestMessage,
+  handlePickImageMessage,
   handleRegisterStateMessage,
   handleRouterMessage,
   handleSaveStateMessage,
@@ -61,6 +62,9 @@ const WebViewContainer = ({ endpoint, tabLayout = false, ...props }: Props) => {
           break;
         case MessageType.TOAST:
           handleToastMessage(message);
+          break;
+        case MessageType.PICK_IMAGE:
+          handlePickImageMessage(webViewRef);
           break;
         default:
           console.warn("Unknown message type:", message.type);

@@ -11,6 +11,8 @@ export enum MessageType {
   LOCATION = "LOCATION",
   GET_LOCATION = "GET_LOCATION",
   TOAST = "TOAST",
+  PICK_IMAGE = "PICK_IMAGE",
+  IMAGE = "IMAGE",
 }
 
 export type RoutePath = "/" | "/chat" | "/map" | "/my";
@@ -63,7 +65,7 @@ export interface RegisterStateMessage {
   };
 }
 
-export type PermissionType = "media-library" | "location" | "notification";
+export type PermissionType = "location" | "notification";
 export type PermissionStatus = "undetermined" | "granted" | "denied";
 
 export interface PermissionRequestMessage {
@@ -102,6 +104,17 @@ export interface ToastMessage {
   };
 }
 
+export interface PickImageMessage {
+  type: MessageType.PICK_IMAGE;
+}
+
+export interface ImageMessage {
+  type: MessageType.IMAGE;
+  payload: {
+    data: string;
+  };
+}
+
 export type WebViewBridgeMessage =
   | RouterMessage
   | DebugMessage
@@ -112,4 +125,6 @@ export type WebViewBridgeMessage =
   | PermissionStatusMessage
   | GetLocationMessage
   | LocationMessage
-  | ToastMessage;
+  | ToastMessage
+  | PickImageMessage
+  | ImageMessage;
