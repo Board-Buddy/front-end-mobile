@@ -1,4 +1,3 @@
-import { COLORS } from "@/constants/colors";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
@@ -29,7 +28,6 @@ const WebViewScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.WHITE,
   },
 });
 
