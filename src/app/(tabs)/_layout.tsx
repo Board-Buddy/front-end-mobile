@@ -2,6 +2,7 @@ import { COLORS } from "@/constants/colors";
 import useDoubleBackExit from "@/hooks/useDoubleBackExit";
 import { Entypo, Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { Platform } from "react-native";
 
 export const TabLayout = () => {
   useDoubleBackExit();
@@ -9,10 +10,12 @@ export const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
+        tabBarStyle: {
+          height: Platform.OS === "android" ? 105 : undefined, // Android만 105dp로 설정, iOS는 기본값 사용
+        },
         tabBarActiveTintColor: COLORS.PRIMARY,
         tabBarInactiveTintColor: COLORS.GRAY_500,
         tabBarLabelStyle: {
-          paddingTop: 2,
           fontSize: 12,
           fontWeight: "bold",
         },
@@ -28,7 +31,7 @@ export const TabLayout = () => {
         options={{
           title: "홈",
           tabBarIcon: ({ color }) => (
-            <Entypo name="home" size={24} color={color} />
+            <Entypo name="home" size={20} color={color} />
           ),
           headerShown: false,
         }}
@@ -38,7 +41,7 @@ export const TabLayout = () => {
         options={{
           title: "채팅",
           tabBarIcon: ({ color }) => (
-            <Feather name="message-square" size={24} color={color} />
+            <Feather name="message-square" size={20} color={color} />
           ),
           headerTitle: "채팅 목록",
         }}
@@ -48,7 +51,7 @@ export const TabLayout = () => {
         options={{
           title: "지도",
           tabBarIcon: ({ color }) => (
-            <Feather name="map-pin" size={24} color={color} />
+            <Feather name="map-pin" size={20} color={color} />
           ),
           headerTitle: "보드게임 카페 찾기",
         }}
@@ -58,7 +61,7 @@ export const TabLayout = () => {
         options={{
           title: "마이페이지",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-circle" size={24} color={color} />
+            <FontAwesome5 name="user-circle" size={20} color={color} />
           ),
         }}
       />
