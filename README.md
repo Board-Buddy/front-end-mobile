@@ -25,6 +25,7 @@ https://github.com/user-attachments/assets/ddde0604-f06b-4007-a44d-9c8578b9f8e1
 
 <br/>
 
+<!--
 ### 갤러리 권한 요청 및 처리
 - 권한 거부 시 토스트 안내 표시  
 
@@ -35,6 +36,7 @@ https://github.com/user-attachments/assets/6f875fd8-67ee-4f63-b7c3-28983bf541bf
 https://github.com/user-attachments/assets/17ae49db-c8ee-4371-8a09-d1aab045fda3
 
 <br/>
+-->
 
 ### 화면 전환 구조
 
