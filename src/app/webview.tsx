@@ -8,19 +8,24 @@ const WebViewScreen = () => {
   const { url, headerTitle } = useLocalSearchParams();
   const navigation = useNavigation();
 
+  const safeUrl = Array.isArray(url) ? url[0] : url;
+  const safeHeaderTitle = Array.isArray(headerTitle)
+    ? headerTitle[0]
+    : headerTitle;
+
   useEffect(() => {
     navigation.setOptions({
-      headerShown: !!headerTitle,
-      headerTitle,
+      headerShown: !!safeHeaderTitle,
+      safeHeaderTitle,
     });
-  }, [headerTitle, navigation]);
+  }, [safeHeaderTitle, navigation]);
 
   return (
     <SafeAreaView
       style={styles.container}
       edges={url.includes("login") ? ["top", "bottom"] : ["bottom"]}
     >
-      <WebViewContainer endpoint={`/${url}`} />
+      <WebViewContainer endpoint={safeUrl} />
     </SafeAreaView>
   );
 };
