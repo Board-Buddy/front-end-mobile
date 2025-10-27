@@ -5,7 +5,7 @@ import {
 } from "@/features/webview/types/webview";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible";
 import { useRouter } from "expo-router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import WebView, {
   WebViewMessageEvent,
@@ -73,6 +73,16 @@ const WebViewContainer = ({ endpoint, tabLayout = false, ...props }: Props) => {
       console.warn("Invalid message format", error);
     }
   };
+
+  // 모집글 작성/수정 폼 페이지를 떠날 때 상태 초기화
+  // 모집글 작성 endpoint: /article/write, 모집글 수정 endpoint: /article/:id/edit
+  useEffect(() => {
+    return () => {
+      if (/^\/article\/(\d+\/edit|write)$/.test(endpoint)) {
+        setWebViewState("article-write-form", null);
+      }
+    };
+  }, [endpoint, setWebViewState]);
 
   return (
     <KeyboardAvoidingView
