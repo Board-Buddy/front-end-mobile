@@ -1,5 +1,5 @@
-import { COLORS } from "@/constants/colors";
-import useDoubleBackExit from "@/hooks/useDoubleBackExit";
+import { COLORS } from "@/shared/constants/colors";
+import useDoubleBackExit from "@/shared/hooks/useDoubleBackExit";
 import { Entypo, Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Platform } from "react-native";

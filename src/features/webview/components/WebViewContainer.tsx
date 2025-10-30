@@ -3,7 +3,7 @@ import {
   MessageType,
   WebViewBridgeMessage,
 } from "@/features/webview/types/webview";
-import useKeyboardVisible from "@/hooks/useKeyboardVisible";
+import useKeyboardVisible from "@/shared/hooks/useKeyboardVisible";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";

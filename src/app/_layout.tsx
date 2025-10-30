@@ -1,5 +1,5 @@
-import { toastConfig } from "@/components/CustomToast";
-import { COLORS } from "@/constants/colors";
+import { toastConfig } from "@/shared/components/CustomToast";
+import { COLORS } from "@/shared/constants/colors";
 import { Stack } from "expo-router";
 import { StatusBar, useColorScheme } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
